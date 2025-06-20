@@ -44,7 +44,7 @@ MessageIO is a real-time web messaging platform built using ASP.NET Core and Ang
 
 ### 🔧 Prerequisites
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/)
+- [.NET 9 SDK](https://dotnet.microsoft.com/)
 - [Node.js + npm](https://nodejs.org/)
 - [Angular CLI](https://angular.io/cli)
 - [Visual Studio / VS Code](https://code.visualstudio.com/)
