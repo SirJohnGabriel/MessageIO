@@ -1,0 +1,99 @@
+<div class="flex flex-col h-screen">
+  <!-- Top Bar -->
+  <div class="py-3" style="background-color: #3B5998;">
+    <div class="flex justify-between items-center h-full px-6">
+      <!-- Logo -->
+      <div>
+        <h1 class="text-white text-4xl font-extrabold tracking-tight" style="font-family: 'Inter', sans-serif;">
+          messageio
+        </h1>
+      </div>
+
+      <!-- Login Form -->
+      <div>
+        <form method="POST" class="flex items-center space-x-4">
+          <div class="flex flex-col text-white text-sm">
+            <label for="email">Email or Phone</label>
+            <input type="email" id="email" class="px-2 py-1 text-black bg-white">
+            <div class="flex items-center space-x-1 mt-1">
+              <input type="checkbox" id="remember">
+              <label for="remember">Keep me logged in</label>
+            </div>
+          </div>
+
+          <div class="flex flex-col text-white text-sm">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="px-2 py-1 text-black bg-white">
+            <a href="#" class="text-xs text-white underline mt-1">Forgot your password?</a>
+          </div>
+
+          <div>
+            <button type="submit" class="login-button h-[32px]">
+                Log In
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Body -->
+  <div class="flex-1 bg-[#E7EBF2] flex items-center justify-center">
+    <div class="shadow-lg p-8 rounded-lg flex space-x-8 w-full h-full">
+      <!-- Left Panel -->
+      <div class="w-1/2 py-10 px-15">
+        <h2 class="font-semibold text-gray-800 mb-4 pe-25" style="font-size: x-large;">
+          MessageIO helps you connect and share with the people in your life.
+        </h2>
+        <img [src]="mapConnect" [alt]="mapAlt" class="w-full">
+      </div>
+
+      <!-- Sign Up Form -->
+      <div class="w-1/2 px-35">
+        <h2 class="text-3xl font-bold text-gray-800 mb-1">Sign Up</h2>
+        <p class="text-gray-600 mb-4">It’s free and always will be.</p>
+
+        <form class="space-y-3">
+          <div class="flex space-x-2">
+            <input type="text" placeholder="First Name" class="register-input-fields w-1/2 p-2 border border-gray-300 rounded">
+            <input type="text" placeholder="Last Name" class="register-input-fields w-1/2 p-2 border border-gray-300 rounded">
+          </div>
+          <input type="email" placeholder="Your Email" class="register-input-fields w-full p-2 border border-gray-300 rounded">
+          <input type="email" placeholder="Re-enter Email" class="register-input-fields w-full p-2 border border-gray-300 rounded">
+          <input type="password" placeholder="New Password" class="register-input-fields w-full p-2 border border-gray-300 rounded">
+
+          <!-- Birthday -->
+          <div>
+            <label class="text-sm text-gray-600">Birthday:</label>
+            <div class="flex space-x-2 mt-1">
+              <select class="register-input-fields p-2 border border-gray-300 rounded w-1/3">
+                <option>Month</option>
+              </select>
+              <select class="register-input-fields p-2 border border-gray-300 rounded w-1/3">
+                <option>Day</option>
+              </select>
+              <select class="register-input-fields p-2 border border-gray-300 rounded w-1/3">
+                <option>Year</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Gender -->
+          <div class="flex space-x-4">
+            <label><input type="radio" name="gender" class="mr-1"> Female</label>
+            <label><input type="radio" name="gender" class="mr-1"> Male</label>
+          </div>
+
+          <!-- Terms -->
+          <p class="text-xs text-gray-500 leading-snug">
+            By clicking Sign Up, you agree to our Terms and that you have read our Data Use Policy, including our Cookie Use.
+          </p>
+
+          <button type="submit" class="sign-up-button text-white font-bold px-6 py-2 rounded text-lg">
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
