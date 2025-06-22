@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './login.css'
 })
 export class Login {
-
+  mapConnect = '/connect_map2.png';
+  mapAlt = 'Map Connect';
 }

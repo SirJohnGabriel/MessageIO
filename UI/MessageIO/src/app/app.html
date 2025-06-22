@@ -1,11 +1,8 @@
-<h2>Weather Forecast</h2>
-
-<ul *ngIf="forecast.length > 0; else loading">
-  <li *ngFor="let day of forecast">
-    {{ day.date | date }} — {{ day.temperatureC }}°C — {{ day.summary }}
-  </li>
-</ul>
-
-<ng-template #loading>
-  <p>Loading weather...</p>
-</ng-template>
+<head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Questrial&display=swap');
+  </style>
+</head>
+<div>
+  <router-outlet />
+</div>
