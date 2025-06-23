@@ -1,0 +1,38 @@
+@if (users$ | async; as users) {
+    <div class="bg-white shadow-md rounded-lg overflow-x-auto border border-gray-200">
+        @if (users.length > 0) {
+        <table class="w-full table-auto text-sm text-left text-gray-700">
+            <caption class="text-lg font-medium px-4 py-2">Users Table</caption>
+            <thead class="bg-gray-100 border-b">
+            <tr>
+                <th class="px-4 py-2">ID</th>
+                <th class="px-4 py-2">Username</th>
+                <th class="px-4 py-2">Email</th>
+                <th class="px-4 py-2">First Name</th>
+                <th class="px-4 py-2">Last Name</th>
+                <th class="px-4 py-2">Password Hash</th>
+                <th class="px-4 py-2">Created At</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for (item of users; track $index) {
+                <tr class="border-b hover:bg-gray-50">
+                <td class="px-4 py-2">{{ item.id }}</td>
+                <td class="px-4 py-2">{{ item.username }}</td>
+                <td class="px-4 py-2">{{ item.email }}</td>
+                <td class="px-4 py-2">{{ item.firstName }}</td>
+                <td class="px-4 py-2">{{ item.lastName }}</td>
+                <td class="px-4 py-2 truncate">{{ item.passwordHash }}</td>
+                <td class="px-4 py-2">{{ item.createdAt }}</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        } @else {
+        <p class="text-gray-500 p-4">No users found.</p>
+        }
+    </div>
+}
+<button (click)="logout()" class="bg-red-500 text-white px-4 py-2 rounded-md">
+  Logout
+</button>
