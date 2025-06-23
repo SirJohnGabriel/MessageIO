@@ -1,0 +1,97 @@
+<div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
+  <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()" class="space-y-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+      <!-- Username -->
+      <div>
+        <label class="block font-semibold mb-1">
+          Username <span class="text-red-500">*</span>
+        </label>
+        <input type="text" formControlName="username"
+               class="w-full border border-gray-300 rounded px-3 py-2"
+               [ngClass]="{'border-red-500': userForm.get('username')?.invalid && userForm.get('username')?.touched}"
+               required />
+        <div *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched" class="text-red-500 text-sm mt-1">
+          Username is required.
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label class="block font-semibold mb-1">
+          Email <span class="text-red-500">*</span>
+        </label>
+        <input type="email" formControlName="email"
+               class="w-full border border-gray-300 rounded px-3 py-2"
+               [ngClass]="{'border-red-500': userForm.get('email')?.invalid && userForm.get('email')?.touched}"
+               required />
+        <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-red-500 text-sm mt-1">
+          A valid email is required.
+        </div>
+      </div>
+
+      <!-- First Name -->
+      <div>
+        <label class="block font-semibold mb-1">
+          First Name <span class="text-red-500">*</span>
+        </label>
+        <input type="text" formControlName="firstName"
+               class="w-full border border-gray-300 rounded px-3 py-2"
+               [ngClass]="{'border-red-500': userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched}"
+               required />
+        <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-red-500 text-sm mt-1">
+          First name is required.
+        </div>
+      </div>
+
+      <!-- Last Name -->
+      <div>
+        <label class="block font-semibold mb-1">Last Name</label>
+        <input type="text" formControlName="lastName"
+               class="w-full border border-gray-300 rounded px-3 py-2" />
+      </div>
+
+      <!-- Password -->
+      <div class="md:col-span-2">
+        <label class="block font-semibold mb-1">
+          Password <span class="text-red-500">*</span>
+        </label>
+        <input type="password" formControlName="password"
+               class="w-full border border-gray-300 rounded px-3 py-2"
+               [ngClass]="{'border-red-500': userForm.get('password')?.invalid && userForm.get('password')?.touched}"
+               required />
+        <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-red-500 text-sm mt-1">
+          Password is required.
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="md:col-span-2">
+        <label class="block font-semibold mb-1">
+          Confirm Password <span class="text-red-500">*</span>
+        </label>
+        <input type="password" formControlName="confirmPassword"
+               class="w-full border border-gray-300 rounded px-3 py-2"
+               [ngClass]="{'border-red-500': passwordMismatch && userForm.get('confirmPassword')?.touched}"
+               required />
+        <div *ngIf="passwordMismatch && userForm.get('confirmPassword')?.touched" class="text-red-500 text-sm mt-1">
+          Passwords do not match.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Submit Button and Login Link -->
+    <div class="pt-4 flex justify-between items-center">
+      <button type="submit"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded shadow"
+              [disabled]="userForm.invalid || passwordMismatch">
+        Yoink
+      </button>
+      <p class="text-sm text-gray-600">
+        Already have an account?
+        <a routerLink="/login" class="text-indigo-600 hover:underline font-medium">Login</a>
+      </p>
+    </div>
+  </form>
+</div>

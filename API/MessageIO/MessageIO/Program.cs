@@ -5,6 +5,7 @@ using Scalar.AspNetCore;
 using System.Text;
 using MessageIO.Data;
 using Microsoft.EntityFrameworkCore;
+using MessageIO.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 var MySpecificOrigins = "_myAllowSpecificOrigins";
@@ -41,6 +42,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<TokenProvider>();
 
 var app = builder.Build();
 
