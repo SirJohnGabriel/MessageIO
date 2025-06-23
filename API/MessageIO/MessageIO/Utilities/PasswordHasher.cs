@@ -17,5 +17,10 @@ namespace MessageIO.Utilities
                 return builder.ToString();
             }
         }
+
+        public static bool VerifyPassword(string inputPassword, string hashedPassword)
+        {
+            return HashPassword(inputPassword) == hashedPassword;
+        }
     }
 }

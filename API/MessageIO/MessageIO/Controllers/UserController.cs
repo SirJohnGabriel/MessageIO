@@ -1,5 +1,6 @@
 ﻿using Contactly.Models;
 using MessageIO.Data;
+using MessageIO.Helpers;
 using MessageIO.Models;
 using MessageIO.Utilities;
 using Microsoft.AspNetCore.Http;
@@ -15,10 +16,12 @@ namespace MessageIO.Controllers
     public class UserController : ControllerBase
     {
         private readonly AppDbContext dbContext;
+        private readonly TokenProvider tokenProvider;
 
-        public UserController(AppDbContext dbContext)
+        public UserController(AppDbContext dbContext, TokenProvider tokenProvider)
         {
            this.dbContext = dbContext;
+            this.tokenProvider = tokenProvider;
         }
 
         [HttpGet]
@@ -27,7 +30,7 @@ namespace MessageIO.Controllers
             return Ok(users);
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public IActionResult AddUser(AddUserRequestDTO request)
         {
             if (dbContext.Users.Any(u => u.Email == request.Email || u.Username == request.Username))
@@ -107,5 +110,21 @@ namespace MessageIO.Controllers
             return Ok(user);
         }
         
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginRequestDTO request)
+        {
+            var user = dbContext.Users.FirstOrDefault(u => u.Email == request.Identifier || u.Username == request.Identifier);
+
+            if (user == null)
+                return NotFound("User not found.");
+
+            if (!PasswordHasher.VerifyPassword(request.Password, user.PasswordHash))
+                return Unauthorized("Invalid Password");
+
+            string token = tokenProvider.Create(user);
+
+            return Ok(new { Token = token, User = new { user.Id, user.Username, user.Email, user.FirstName, user.LastName } });
+        }
     }
+
 }
