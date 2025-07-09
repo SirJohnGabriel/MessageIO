@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
 })
 export class Register {
   http = inject(HttpClient);
+  router = inject(Router);
 
   userForm = new FormGroup({
     username: new FormControl('', { nonNullable: true }),
@@ -44,6 +45,7 @@ export class Register {
       next: (value) => {
         console.log(value);
         this.userForm.reset();
+        this.router.navigate(['/login'])
       }
     })
   }

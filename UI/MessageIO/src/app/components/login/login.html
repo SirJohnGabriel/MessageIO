@@ -1,15 +1,31 @@
 <div class="max-w-md mx-auto mt-10 bg-white p-6 shadow-md rounded">
   <h2 class="text-xl font-bold mb-4 text-center">Login to MessageIO</h2>
 
-  <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+  <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" autocomplete="on">
+    <!-- USERNAME/EMAIL -->
     <div class="mb-4">
       <label class="block font-medium">Username or Email</label>
-      <input type="text" formControlName="identifier" class="w-full border rounded px-3 py-2" required />
+      <input type="text" name="username" formControlName="identifier" class="w-full border rounded px-3 py-2" required autocomplete="username"/>
     </div>
+
+    <!-- PASSWORD -->
     <div class="mb-4">
       <label class="block font-medium">Password</label>
-      <input type="password" formControlName="password" class="w-full border rounded px-3 py-2" required />
+      <input type="password" name="password" formControlName="password" class="w-full border rounded px-3 py-2" required autocomplete="current-password"/>
     </div>
+
+    <!-- REMEMBER ME -->
+    <div class="mb-4 flex items-center">
+      <input
+        type="checkbox"
+        id="rememberMe"
+        formControlName="rememberMe"
+        class="mr-2"
+      />
+      <label for="rememberMe" class="text-sm text-gray-700">Remember Me</label>
+    </div>
+
+    <!-- SUBMIT -->
     <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 w-full">
       Yeet
     </button>
