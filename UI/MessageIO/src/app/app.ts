@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -12,4 +12,11 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {}
+export class App {
+  constructor(public router: Router) { }
+
+  get hideHeader(): boolean {
+    const hiddenRoutes = ['/conversations', '/settings'];
+    return hiddenRoutes.some(path => this.router.url.startsWith(path));
+  }
+}

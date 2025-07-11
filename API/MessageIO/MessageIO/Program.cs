@@ -52,10 +52,10 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.MapScalarApiReference(options =>
-    {
+    {   
         options
             .WithTitle("MessageIO API")
-            .WithTheme(ScalarTheme.Moon)
+            .WithTheme(ScalarTheme.Purple)
             .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
             .WithDarkMode();
     });

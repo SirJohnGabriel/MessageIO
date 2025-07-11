@@ -14,10 +14,9 @@ import { Router } from '@angular/router';
 })
 export class Dashboard {
   http = inject(HttpClient);
+  router = inject(Router);
 
   users$ = this.getUsers();
-    
-  constructor(private router: Router) {}
 
   private getUsers(): Observable<User[]>{
     return this.http.get<User[]>('https://localhost:7218/api/user')
