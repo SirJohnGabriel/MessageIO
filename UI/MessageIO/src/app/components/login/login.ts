@@ -2,17 +2,26 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { Auth } from '../../services/auth';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [ CommonModule, FormsModule, ReactiveFormsModule, RouterLink, FontAwesomeModule ],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
 export class Login implements OnInit {
   http = inject(HttpClient);
-  router = inject(Router);
+  showPassword = false;
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
+  loginFailed = false;
+
+  constructor(private authService: Auth, private router: Router) { }
 
   loginForm = new FormGroup({
     identifier: new FormControl(''),
@@ -39,7 +48,7 @@ export class Login implements OnInit {
       localStorage.removeItem('rememberedIdentifier');
     }
 
-    this.http.post<any>('https://localhost:7218/api/user/login', { identifier, password }).subscribe({
+    this.authService.login(identifier!, password!).subscribe({
       next: (response) => {
         console.log('Login Success', response);
         localStorage.setItem('token', response.token);
@@ -47,8 +56,13 @@ export class Login implements OnInit {
       },
       error: (err) => {
         console.log('Login failed', err);
-        alert('Invalid Credentials');
+        // alert('Invalid Credentials');
+        this.loginFailed = true;
       }
     });
+  }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
   }
 }

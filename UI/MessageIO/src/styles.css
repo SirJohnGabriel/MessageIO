@@ -1,2 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+:root {
+    --color-primary: #181818;
+    --color-secondary: #ccc5b9;
+    --color-danger: #bf0603;
+    --color-success: #0353a4;
+    --color-bg: #0F0F0F;
+    --color-text: #fffcf2;
+    --color-inner-text: #8C8C8C;
+    --color-trim: #eb5e28;
+}
+
+/* For Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 6px;              /* thinner scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* no track background */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3); /* semi-transparent black */
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5); /* darker on hover */
+}

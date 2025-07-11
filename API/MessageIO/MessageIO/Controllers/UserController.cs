@@ -33,9 +33,26 @@ namespace MessageIO.Controllers
         [HttpPost("register")]
         public IActionResult AddUser(AddUserRequestDTO request)
         {
-            if (dbContext.Users.Any(u => u.Email == request.Email || u.Username == request.Username))
+
+            if (!ModelState.IsValid)
             {
-                return BadRequest("User with this email or username already exists.");
+                return BadRequest(ModelState);
+            }
+
+            var errors = new Dictionary<string, string>();
+
+            if (dbContext.Users.Any(u => u.Email == request.Email))
+            {
+                errors["email"] = "User with this email already exists.";
+            }
+            if (dbContext.Users.Any(u => u.Username == request.Username))
+            {
+                errors["username"] = "User with this username already exists.";
+            }
+
+            if (errors.Count > 0)
+            {
+                return BadRequest(errors);
             }
 
             var modelUser = new User

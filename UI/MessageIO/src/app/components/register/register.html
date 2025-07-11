@@ -1,97 +1,112 @@
-<div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
-  <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()" class="space-y-4">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="min-h-screen flex items-center justify-center" style="background-color: var(--color-bg);">
+  <div class="w-full max-w-xl p-6 shadow-md rounded-lg" style="background-color: var(--color-primary);">
+    <h2 class="text-xl font-bold mb-8 text-center" style="color: var(--color-text);">Join Us &#64; <span
+        class="font-black">MessageIO</span></h2>
 
-      <!-- Username -->
-      <div>
-        <label class="block font-semibold mb-1">
-          Username <span class="text-red-500">*</span>
-        </label>
-        <input type="text" formControlName="username"
-               class="w-full border border-gray-300 rounded px-3 py-2"
-               [ngClass]="{'border-red-500': userForm.get('username')?.invalid && userForm.get('username')?.touched}"
-               required />
-        <div *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched" class="text-red-500 text-sm mt-1">
-          Username is required.
+    <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()" class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- Username -->
+        <div>
+          <label class="block font-semibold mb-1" style="color: var(--color-text);">
+            Username <span style="color: var(--color-danger);">*</span>
+          </label>
+          <input type="text" formControlName="username" class="w-full rounded px-3 py-2"
+            [ngClass]="{'border border-red-500': userForm.get('username')?.invalid && userForm.get('username')?.touched}"
+            required (input)="usernameTaken = false"
+            style="background-color: var(--color-bg); color: var(--color-inner-text); border: 1px solid var(--color-border);" />
+          <div *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched" class="text-sm mt-1"
+            style="color: var(--color-danger);">
+            Username is required.
+          </div>
+          <div *ngIf="usernameTaken" class="text-sm mt-1" style="color: var(--color-danger);">
+            Username is already taken.
+          </div>
         </div>
-      </div>
 
-      <!-- Email -->
-      <div>
-        <label class="block font-semibold mb-1">
-          Email <span class="text-red-500">*</span>
-        </label>
-        <input type="email" formControlName="email"
-               class="w-full border border-gray-300 rounded px-3 py-2"
-               [ngClass]="{'border-red-500': userForm.get('email')?.invalid && userForm.get('email')?.touched}"
-               required />
-        <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-red-500 text-sm mt-1">
-          A valid email is required.
+        <!-- Email -->
+        <div>
+          <label class="block font-semibold mb-1" style="color: var(--color-text);">
+            Email <span style="color: var(--color-danger);">*</span>
+          </label>
+          <input type="email" formControlName="email" class="w-full rounded px-3 py-2"
+            [ngClass]="{'border border-red-500': userForm.get('email')?.invalid && userForm.get('email')?.touched}"
+            required (input)="emailTaken = false"
+            style="background-color: var(--color-bg); color: var(--color-inner-text); border: 1px solid var(--color-border);" />
+          <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-sm mt-1"
+            style="color: var(--color-danger);">
+            A valid email is required.
+          </div>
+          <div *ngIf="emailTaken" class="text-sm mt-1" style="color: var(--color-danger);">
+            Email is already taken.
+          </div>
         </div>
-      </div>
 
-      <!-- First Name -->
-      <div>
-        <label class="block font-semibold mb-1">
-          First Name <span class="text-red-500">*</span>
-        </label>
-        <input type="text" formControlName="firstName"
-               class="w-full border border-gray-300 rounded px-3 py-2"
-               [ngClass]="{'border-red-500': userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched}"
-               required />
-        <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-red-500 text-sm mt-1">
-          First name is required.
+        <!-- First Name -->
+        <div>
+          <label class="block font-semibold mb-1" style="color: var(--color-text);">
+            First Name <span style="color: var(--color-danger);">*</span>
+          </label>
+          <input type="text" formControlName="firstName" class="w-full rounded px-3 py-2"
+            [ngClass]="{'border border-red-500': userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched}"
+            required
+            style="background-color: var(--color-bg); color: var(--color-inner-text); border: 1px solid var(--color-border);" />
+          <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-sm mt-1"
+            style="color: var(--color-danger);">
+            First name is required.
+          </div>
         </div>
-      </div>
 
-      <!-- Last Name -->
-      <div>
-        <label class="block font-semibold mb-1">Last Name</label>
-        <input type="text" formControlName="lastName"
-               class="w-full border border-gray-300 rounded px-3 py-2" />
-      </div>
-
-      <!-- Password -->
-      <div class="md:col-span-2">
-        <label class="block font-semibold mb-1">
-          Password <span class="text-red-500">*</span>
-        </label>
-        <input type="password" formControlName="password"
-               class="w-full border border-gray-300 rounded px-3 py-2"
-               [ngClass]="{'border-red-500': userForm.get('password')?.invalid && userForm.get('password')?.touched}"
-               required />
-        <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-red-500 text-sm mt-1">
-          Password is required.
+        <!-- Last Name -->
+        <div>
+          <label class="block font-semibold mb-1" style="color: var(--color-text);">Last Name</label>
+          <input type="text" formControlName="lastName" class="w-full rounded px-3 py-2"
+            style="background-color: var(--color-bg); color: var(--color-inner-text); border: 1px solid var(--color-border);" />
         </div>
-      </div>
 
-      <!-- Confirm Password -->
-      <div class="md:col-span-2">
-        <label class="block font-semibold mb-1">
-          Confirm Password <span class="text-red-500">*</span>
-        </label>
-        <input type="password" formControlName="confirmPassword"
-               class="w-full border border-gray-300 rounded px-3 py-2"
-               [ngClass]="{'border-red-500': passwordMismatch && userForm.get('confirmPassword')?.touched}"
-               required />
-        <div *ngIf="passwordMismatch && userForm.get('confirmPassword')?.touched" class="text-red-500 text-sm mt-1">
-          Passwords do not match.
+        <!-- Password -->
+        <div class="md:col-span-2">
+          <label class="block font-semibold mb-1" style="color: var(--color-text);">
+            Password <span style="color: var(--color-danger);">*</span>
+          </label>
+          <input type="password" formControlName="password" class="w-full rounded px-3 py-2"
+            [ngClass]="{'border border-red-500': userForm.get('password')?.invalid && userForm.get('password')?.touched}"
+            required
+            style="background-color: var(--color-bg); color: var(--color-inner-text); border: 1px solid var(--color-border);" />
+          <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-sm mt-1"
+            style="color: var(--color-danger);">
+            Password is required.
+          </div>
         </div>
+
+        <!-- Confirm Password -->
+        <div class="md:col-span-2">
+          <label class="block font-semibold mb-1" style="color: var(--color-text);">
+            Confirm Password <span style="color: var(--color-danger);">*</span>
+          </label>
+          <input type="password" formControlName="confirmPassword" class="w-full rounded px-3 py-2"
+            [ngClass]="{'border border-red-500': passwordMismatch && userForm.get('confirmPassword')?.touched}" required
+            style="background-color: var(--color-bg); color: var(--color-inner-text); border: 1px solid var(--color-border);" />
+          <div *ngIf="passwordMismatch && userForm.get('confirmPassword')?.touched" class="text-sm mt-1"
+            style="color: var(--color-danger);">
+            Passwords do not match.
+          </div>
+        </div>
+
       </div>
 
-    </div>
-
-    <!-- Submit Button and Login Link -->
-    <div class="pt-4 flex justify-between items-center">
-      <button type="submit"
-              class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded shadow"
-              [disabled]="userForm.invalid || passwordMismatch">
-        Yoink
-      </button>
-      <p class="text-sm text-gray-600">
-        Already have an account?
-        <a routerLink="/login" class="text-indigo-600 hover:underline font-medium">Login</a>
-      </p>
-    </div>
-  </form>
+      <!-- Submit Button and Login Link -->
+      <div class="pt-4 flex justify-between items-center">
+        <button type="submit" class="text-white px-6 py-2 rounded shadow cursor-pointer
+                  disabled:cursor-not-allowed disabled:opacity-50" [disabled]="userForm.invalid || passwordMismatch"
+          style="background-color: var(--color-trim);">
+          Yoink
+        </button>
+        <p class="text-sm" style="color: var(--color-inner-text);">
+          Already have an account?
+          <a routerLink="/login" class="hover:underline font-medium" style="color: var(--color-trim);">Login</a>
+        </p>
+      </div>
+    </form>
+  </div>
 </div>

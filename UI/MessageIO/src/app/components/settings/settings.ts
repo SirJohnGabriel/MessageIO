@@ -16,4 +16,7 @@ export class Settings {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
+   return() {
+    this.router.navigate(['/conversations']);
+  }
 }

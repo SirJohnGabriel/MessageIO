@@ -1,0 +1,129 @@
+<div class="flex h-full bg-[var(--color-bg)] text-[var(--color-text)]">
+    <!-- Left Column (1/5) -->
+    <div class="w-1/5 p-0 flex flex-col h-full m-2 border border-neutral-500 overflow-hidden rounded-2xl"
+        style="background-color: var(--color-primary);">
+
+        <!-- Header (Top) -->
+        <div class="p-4" style="background-color: var(--color-bg);">
+            <div class="flex justify-between items-center">
+                <h2 class="text-lg font-bold" style="color: var(--color-text);">Conversations</h2>
+                <div class="grid grid-cols-2 gap-2">
+                    <button (click)="compose()"
+                        class="cursor-pointer text-[var(--color-inner-text)] hover:text-[var(--color-trim)]">
+                        <fa-icon [icon]="fapentosquare"></fa-icon>
+                    </button>
+                    <button (click)="settings()"
+                        class="cursor-pointer text-[var(--color-inner-text)] hover:text-[var(--color-trim)]">
+                        <fa-icon [icon]="fagear"></fa-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="mt-4">
+                <input type="text" placeholder="Search..." [(ngModel)]="searchTerm"
+                    class="w-full rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring"
+                    style="background-color: var(--color-primary); color: var(--color-inner-text);" />
+            </div>
+        </div>
+
+        <!-- Scrollable Conversation List -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-4 scrollable-list">
+            <ng-container *ngFor="let contact of contacts">
+                <div
+                    class="flex items-center space-x-3 p-2 rounded cursor-pointer hover:bg-[var(--color-bg)] transition">
+                    <img src="https://placehold.co/40x40" alt="Profile" class="rounded-full w-12 h-12" />
+                    <div>
+                        <div class="font-semibold" style="color: var(--color-text);">{{ contact.name }}</div>
+                        <div class="text-sm truncate" style="color: var(--color-inner-text);">
+                            {{ contact.lastMessage }}
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+        <!-- Bottom Profile Section -->
+        <div class="p-4" style="background-color: var(--color-bg);">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <img src="https://placehold.co/40x40" alt="Me" class="w-10 h-10 rounded-full" />
+                    <div>
+                        <div class="font-semibold" style="color: var(--color-text);">Gabriel</div>
+                        <div class="text-sm" style="color: var(--color-inner-text);">Online</div>
+                    </div>
+                </div>
+                <button (click)="showLogoutConfirm = true"
+                    class="text-[var(--color-inner-text)] hover:text-[var(--color-trim)] transition duration-150 cursor-pointer">
+                    <fa-icon [icon]="faRightFromBracket"></fa-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Right Column (4/5) -->
+    <div class="w-4/5 flex flex-col h-full rounded-lg m-2 border border-neutral-500 rounded-2xl overflow-hidden">
+        <!-- Header -->
+        <div class="p-4 flex items-center space-x-4 sticky top-0 z-10" style="background-color: var(--color-primary);">
+            <img src="https://placehold.co/40x40" alt="Profile" class="w-10 h-10 rounded-full" />
+            <div>
+                <div class="font-bold text-lg" style="color: var(--color-text);">Jane Mylene</div>
+                <div class="text-sm" style="color: var(--color-inner-text);">Online</div>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div #messageContainer class="flex-1 p-4 overflow-y-auto space-y-4 scrollable-list">
+            <ng-container *ngFor="let msg of messages; let i = index">
+                <div [ngClass]="msg.sentByMe ? 'flex justify-end' : 'flex justify-start'">
+                    <div class="max-w-xs flex flex-col space-y-1"
+                        [ngClass]="msg.sentByMe ? 'items-end' : 'items-start'">
+
+                        <!-- Timestamp only if first message or different sender from previous -->
+                        <div *ngIf="i === 0 || messages[i - 1].sentByMe !== msg.sentByMe" class="text-xs"
+                            style="color: var(--color-inner-text); opacity: 0.6;"
+                            [ngClass]="msg.sentByMe ? 'self-end' : 'self-start'">
+                            {{ msg.timestamp | date:'shortTime' }}
+                        </div>
+
+                        <!-- Message Bubble -->
+                        <div [ngClass]="msg.sentByMe ? 'bg-blue-600 text-white' : 'bg-gray-300 text-black'"
+                            class="px-4 py-2 rounded-lg">
+                            {{ msg.text }}
+                        </div>
+
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+        <!-- Input -->
+        <div class="p-4 flex items-center space-x-2" style="background-color: var(--color-primary);">
+            <input type="text" placeholder="Type a message..."
+                class="flex-1 px-4 py-2 rounded-lg focus:outline-none focus:ring"
+                style="background-color: var(--color-bg); color: var(--color-inner-text);" />
+            <button class="px-4 py-2 rounded-lg text-white cursor-pointer" style="background-color: var(--color-trim);">
+                Send
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Logout Confirmation Box -->
+<div *ngIf="showLogoutConfirm"
+    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[var(--color-primary)] shadow-lg rounded-lg p-4 z-50"
+    style="width: 300px;">
+    <div class="text-sm mb-3" style="color: var(--color-text);">
+        Are you sure you want to log out?
+    </div>
+    <div class="flex justify-end space-x-2">
+        <button (click)="cancelLogout()" class="px-3 py-1 text-sm rounded bg-[var(--color-inner-text)] hover:bg-gray-400 text-black cursor-pointer">
+            Cancel
+        </button>
+        <button (click)="performLogout()" class="px-3 py-1 text-sm rounded bg-[var(--color-danger)] hover:bg-red-700 text-[var(--color-text)] cursor-pointer">
+            Logout
+        </button>
+    </div>
+</div>
