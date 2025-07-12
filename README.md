@@ -62,7 +62,7 @@ dotnet run
 ```
 
 
-### 🕸️ Frontend Setup (Angular TS)
+### 🕸️ Frontend Setup (Angular)
 
 ```bash
 cd UI/MessageIO
