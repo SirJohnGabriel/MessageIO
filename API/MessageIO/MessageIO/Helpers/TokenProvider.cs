@@ -17,7 +17,7 @@ namespace MessageIO.Helpers
 
         public string Create(User user)
         {
-            string secretKey = configuration["Jwt:Secret"];
+            string secretKey = configuration["Jwt:Key"];
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
