@@ -30,13 +30,13 @@ MessageIO is a real-time web messaging platform built using ASP.NET Core and Ang
 
 ## 🛠 Tech Stack
 
-| Layer         | Technology                |
+| Layer         | Technology                 |
 |---------------|----------------------------|
 | Frontend      | Angular (TypeScript)       |
 | Backend       | ASP.NET Core Web API       |
 | Database      | MS SQL Server / LocalDB    |
 | ORM           | Entity Framework Core      |
-| Auth (Planned)| JWT or Cookie-based        |
+| Auth          | JWT Web Token              |
 
 ---
 
@@ -55,7 +55,17 @@ MessageIO is a real-time web messaging platform built using ASP.NET Core and Ang
 ### 🧱 Backend Setup (ASP.NET Core)
 
 ```bash
-cd MessageIO
+cd API/MessageIO
 dotnet restore
 dotnet ef database update
 dotnet run
+```
+
+
+### 🕸️ Frontend Setup (Angular)
+
+```bash
+cd UI/MessageIO
+npm install
+ng serve
+```
