@@ -33,7 +33,8 @@ export class Conversations {
 
   searchTerm: string = '';
   newMessage: string = '';
-  newMessageText: string = '';
+  currentUserName: string = '';
+  selectedParticipantName: string = '';
   fagear = faGear;
   fapentosquare = faPenToSquare;
   faRightFromBracket = faRightFromBracket;
@@ -86,6 +87,8 @@ export class Conversations {
   }
 
   ngOnInit(): void {
+    this.currentUserId = this.getUserIdFromToken();
+    this.currentUserName = this.getUserNameFromToken();
     this.loadConversations();
   }
 
@@ -93,11 +96,16 @@ export class Conversations {
     this.currentUserId = this.getUserIdFromToken();
     this.convoService.getUserConversations(this.currentUserId).subscribe({
       next: (data) => {
-        console.log('✅ Conversations loaded:', data);
+        console.log('Conversations loaded:', data);
         this.conversations = data;
+
+        if (this.conversations.length > 0) {
+          const firstConvo = this.conversations[0];
+          this.openConversation(firstConvo.conversationId);
+        }
       },
       error: (err) => {
-        console.error('❌ Failed to load conversations:', err);
+        console.error('Failed to load conversations:', err);
       },
     });
   }
@@ -110,13 +118,23 @@ export class Conversations {
       const payload = JSON.parse(atob(token.split('.')[1]));
       return payload.sub || '';
     } catch (e) {
-      console.error('❌ Failed to decode token', e);
+      console.error('Failed to decode token', e);
       return '';
     }
   }
 
   openConversation(conversationId: number) {
     this.selectedConversationId = conversationId;
+
+    const convo = this.conversations.find(
+      (c) => c.conversationId === conversationId
+    );
+    if (convo) {
+      this.selectedParticipantName = convo.participants
+        .filter((p) => p.userId !== this.currentUserId)
+        .map((p) => `${p.firstName} ${p.lastName ?? ''}`)
+        .join(', ');
+    }
 
     this.messageService.getMessage(conversationId).subscribe({
       next: (messages) => {
@@ -131,7 +149,7 @@ export class Conversations {
         setTimeout(() => this.scrollToBottom(), 0);
       },
       error: (err) => {
-        console.error('❌ Failed to load messages:', err);
+        console.error('Failed to load messages:', err);
       },
     });
   }
@@ -142,9 +160,15 @@ export class Conversations {
       .map((p) => `${p.firstName} ${p.lastName ?? ''}`)
       .join(', ');
   }
-  sendMessage(): void {
-    const trimmedContent = this.newMessageText.trim();
 
+  sendMessage(): void {
+    const trimmedContent = this.newMessage.trim();
+    console.log('Debug -> content: ', trimmedContent);
+    console.log(
+      'Debug -> selectedConversationId: ',
+      this.selectedConversationId
+    );
+    console.log('Debug -> currentUserId: ', this.currentUserId);
     if (
       !trimmedContent ||
       !this.selectedConversationId ||
@@ -166,7 +190,7 @@ export class Conversations {
 
     this.messageService.sendMessage(payload).subscribe({
       next: (response) => {
-        console.log('✅ Message sent:', response);
+        console.log('Message sent:', response);
 
         // Add to local messages immediately
         this.messages.push({
@@ -177,12 +201,36 @@ export class Conversations {
           sentByMe: true,
         });
 
-        this.newMessageText = '';
+        this.newMessage = '';
         setTimeout(() => this.scrollToBottom(), 0);
       },
       error: (err) => {
-        console.error('❌ Failed to send message:', err);
+        console.error('Failed to send message:', err);
       },
+    });
+  }
+
+  private getUserNameFromToken(): string {
+    const token = localStorage.getItem('token');
+    if (!token) return '';
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      console.log('first name: ', payload.firstName);
+      return payload.firstName || '';
+    } catch (err) {
+      console.error('Failed to decode token for username', err);
+      return '';
+    }
+  }
+
+  get filteredConversations(): ConversationResponse[] {
+    const term = this.searchTerm.trim().toLowerCase();
+    if (!term) return this.conversations;
+
+    return this.conversations.filter((convo) => {
+      const names = this.getParticipantNames(convo.participants).toLowerCase();
+      return names.includes(term);
     });
   }
 }

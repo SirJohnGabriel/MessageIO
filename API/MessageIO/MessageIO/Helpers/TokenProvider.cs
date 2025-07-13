@@ -27,6 +27,9 @@ namespace MessageIO.Helpers
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim("firstName", user.FirstName),
+                    new Claim("lastName", user.LastName ?? ""),
+                    new Claim("username", user.Username)
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(configuration.GetValue<int>("Jwt:ExpirationInMinutes")),
                 SigningCredentials = credentials,
