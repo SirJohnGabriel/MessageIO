@@ -29,19 +29,25 @@
 
         <!-- Scrollable Conversation List -->
         <div class="flex-1 overflow-y-auto p-4 space-y-4 scrollable-list">
-            <ng-container *ngFor="let contact of contacts">
-                <div
-                    class="flex items-center space-x-3 p-2 rounded cursor-pointer hover:bg-[var(--color-bg)] transition">
+            <ng-container *ngFor="let convo of conversations">
+                <div class="flex items-center space-x-3 p-2 rounded cursor-pointer hover:bg-[var(--color-bg)] transition"
+                    (click)="openConversation(convo.conversationId)">
+
+                    <!-- Placeholder Avatar -->
                     <img src="https://placehold.co/40x40" alt="Profile" class="rounded-full w-12 h-12" />
+
                     <div>
-                        <div class="font-semibold" style="color: var(--color-text);">{{ contact.name }}</div>
+                        <div class="font-semibold" style="color: var(--color-text);">
+                            {{ getParticipantNames(convo.participants) }}
+                        </div>
                         <div class="text-sm truncate" style="color: var(--color-inner-text);">
-                            {{ contact.lastMessage }}
+                            {{ convo.lastMessage?.content || ' ' }}
                         </div>
                     </div>
                 </div>
             </ng-container>
         </div>
+
 
         <!-- Bottom Profile Section -->
         <div class="p-4" style="background-color: var(--color-bg);">
@@ -104,7 +110,10 @@
             <input type="text" placeholder="Type a message..."
                 class="flex-1 px-4 py-2 rounded-lg focus:outline-none focus:ring"
                 style="background-color: var(--color-bg); color: var(--color-inner-text);" />
-            <button class="px-4 py-2 rounded-lg text-white cursor-pointer" style="background-color: var(--color-trim);">
+            <button
+                class="px-4 py-2 rounded-lg text-white cursor-pointer"
+                style="background-color: var(--color-trim);"
+                (click)="sendMessage()">
                 Send
             </button>
         </div>
@@ -119,10 +128,12 @@
         Are you sure you want to log out?
     </div>
     <div class="flex justify-end space-x-2">
-        <button (click)="cancelLogout()" class="px-3 py-1 text-sm rounded bg-[var(--color-inner-text)] hover:bg-gray-400 text-black cursor-pointer">
+        <button (click)="cancelLogout()"
+            class="px-3 py-1 text-sm rounded bg-[var(--color-inner-text)] hover:bg-gray-400 text-black cursor-pointer">
             Cancel
         </button>
-        <button (click)="performLogout()" class="px-3 py-1 text-sm rounded bg-[var(--color-danger)] hover:bg-red-700 text-[var(--color-text)] cursor-pointer">
+        <button (click)="performLogout()"
+            class="px-3 py-1 text-sm rounded bg-[var(--color-danger)] hover:bg-red-700 text-[var(--color-text)] cursor-pointer">
             Logout
         </button>
     </div>

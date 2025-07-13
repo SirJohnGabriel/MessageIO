@@ -18,7 +18,7 @@ export class Dashboard {
 
   users$ = this.getUsers();
 
-  private getUsers(): Observable<User[]>{
+  private getUsers(): Observable<User[]> {
     return this.http.get<User[]>('https://localhost:7218/api/user')
   }
 

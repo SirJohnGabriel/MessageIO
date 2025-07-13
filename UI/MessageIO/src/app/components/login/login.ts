@@ -51,12 +51,15 @@ export class Login implements OnInit {
     this.authService.login(identifier!, password!).subscribe({
       next: (response) => {
         console.log('Login Success', response);
-        localStorage.setItem('token', response.token);
-        this.router.navigate(['/conversations']);
+        const token = response.token;
+        localStorage.setItem('token', token);
+        // localStorage.setItem('currentUserId', response.userId);
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        localStorage.setItem('currentUserId', payload.sub);
+        this.router.navigate(['/conversation-table']);
       },
       error: (err) => {
         console.log('Login failed', err);
-        // alert('Invalid Credentials');
         this.loginFailed = true;
       }
     });

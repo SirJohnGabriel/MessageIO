@@ -140,7 +140,7 @@ namespace MessageIO.Controllers
 
             string token = tokenProvider.Create(user);
 
-            return Ok(new { Token = token, User = new { user.Id, user.Username, user.Email, user.FirstName, user.LastName } });
+            return Ok(new { Token = token, User = new { user.Id, user.Username, user.Email, user.FirstName, user.LastName }, userId = user.Id, });
         }
     }
 

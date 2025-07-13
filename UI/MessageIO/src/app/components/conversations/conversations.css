@@ -1,4 +1,4 @@
-.scrollable-list::-webkit-scrollbar { width: 2px; }
+.scrollable-list::-webkit-scrollbar { width: 2px; height: 4px}
 .scrollable-list::-webkit-scrollbar-track { background: transparent; }
 .scrollable-list::-webkit-scrollbar-thumb:hover { background-color: var(--color-trim); }
 .scrollable-list::-webkit-scrollbar-thumb {
