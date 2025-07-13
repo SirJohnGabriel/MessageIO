@@ -4,6 +4,6 @@ export interface User {
     email: string,
     firstName: string,
     lastName: string | null,
-    passwordHash: string,
+    avatarUrl: string |null,
     createdAt: string,
 }

@@ -7,6 +7,7 @@ import { Register } from './components/register/register';
 import { Conversations } from './components/conversations/conversations';
 import { Settings } from './components/settings/settings';
 import { ForgotPassword } from './components/forgot-password/forgot-password';
+import { ConversationTable } from './components/conversation-table/conversation-table';
 
 export const routes: Routes = [
     { path: '', component: Login},
@@ -16,4 +17,5 @@ export const routes: Routes = [
     { path: 'dashboard', component: Dashboard, canActivate: [authGuard]},
     { path: 'conversations', component: Conversations, canActivate: [authGuard]},
     { path: 'settings', component: Settings, canActivate: [authGuard]},
+    { path: 'conversation-table', component: ConversationTable, canActivate: [authGuard]},
 ];

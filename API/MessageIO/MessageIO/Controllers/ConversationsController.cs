@@ -77,8 +77,22 @@ namespace MessageIO.Controllers
                     Participants = uc.Conversation.UserConversations.Select(p => new
                     {
                         p.UserId,
-                        p.User.Username
-                    })
+                        p.User.Username,
+                        p.User.FirstName,
+                        p.User.LastName,
+                        AvatarUrl = p.User.AvatarUrl
+                    }).ToList(),
+                    LastMessage = uc.Conversation.Messages
+                        .OrderByDescending(m => m.TimeStamp)
+                        .Select(m => new MessageRequestDTO
+                        {
+                            Id = m.Id,
+                            SenderId = m.SenderId,
+                            SenderUsername = m.Sender.Username,
+                            Content = m.Content,
+                            TimeStamp = m.TimeStamp
+                        })
+                        .FirstOrDefault()
                 })
                 .ToListAsync();
 

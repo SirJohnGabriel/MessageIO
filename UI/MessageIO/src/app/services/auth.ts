@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { User } from '../../models/user.models';
 
 @Injectable({
   providedIn: 'root'
@@ -16,5 +17,9 @@ export class Auth {
 
   register(user: { username: string; email: string; firstName: string; lastName: string; passwordHash: string; }):Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/register`, user);
+  }
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/me`);
   }
 }

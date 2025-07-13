@@ -1,7 +1,7 @@
 export interface Message {
-    id: number;
-    contactId: number;
-    text: string;
-    timestamp: Date;
-    sentByMe: boolean;
+  id: number;
+  senderId: string;
+  senderUsername: string;
+  content: string;
+  timeStamp: string;
 }

@@ -14,6 +14,7 @@ export class Settings {
   
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('currentUserId');
     this.router.navigate(['/login']);
   }
    return() {

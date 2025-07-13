@@ -1,0 +1,23 @@
+<h2>Conversations</h2>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Conversation ID</th>
+      <th>Participants</th>
+      <th>Last Message</th>
+    </tr>
+  </thead>
+  <tbody style="color:aliceblue">
+    <tr *ngFor="let convo of conversations">
+      <td>{{ convo.conversationId }}</td>
+      <td>
+        <ul>
+          <li *ngFor="let participant of convo.participants">
+            {{ participant.username }}
+          </li>
+        </ul>
+      </td>
+      <td>{{ convo.lastMessage?.content || 'No message yet' }}</td>
+    </tr>
+  </tbody>
+</table>
