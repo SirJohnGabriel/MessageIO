@@ -2,7 +2,7 @@
   <div class="w-full max-w-sm mx-auto p-6 shadow-md rounded-lg mb-16" style="background-color: var(--color-primary);">
     <h2 class="text-xl font-bold mb-4 text-center" style="color: var(--color-text);">Welcome Back</h2>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" autocomplete="on">
+    <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" autocomplete="on" (keydown.enter)="onLoginSubmit()">
       <!-- USERNAME/EMAIL -->
       <div class="mb-4">
         <!-- <label class="block font-medium" style="color: var(--color-text);">Username or Email</label> -->
