@@ -1,7 +1,9 @@
-﻿using MessageIO.Models;
+﻿using MessageIO.Hubs;
+using MessageIO.Models;
 using MessageIO.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace MessageIO.Controllers
 {
@@ -10,10 +12,12 @@ namespace MessageIO.Controllers
     public class MessagesController : ControllerBase
     {
         private readonly IMessageService _messageService;
+        private readonly IHubContext<ChatHub> _hubContext;
 
-        public MessagesController(IMessageService messageService)
+        public MessagesController(IMessageService messageService, IHubContext<ChatHub> hubContext)
         {
             _messageService = messageService;
+            _hubContext = hubContext;
         }
 
         [HttpPost]
@@ -23,6 +27,9 @@ namespace MessageIO.Controllers
                 return BadRequest("Message content cannot be empty.");
 
             var result = await _messageService.SendMessageAsync(dto);
+
+            await _hubContext.Clients.Group(dto.ConversationId.ToString())
+                .SendAsync("ReceiveMessage", dto.SenderId, dto.Content);
             return Ok(result);
         }
 

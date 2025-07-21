@@ -14,6 +14,7 @@ import { Message } from '../../../models/message.models';
 import { conversationsService } from '../../services/conversationsService';
 import { ConversationResponse } from '../../../models/conversation-response.models';
 import { MessageServices } from '../../services/message-services';
+import { SignalRService } from '../../services/signalr';
 
 @Component({
   selector: 'app-conversations',
@@ -28,7 +29,8 @@ export class Conversations {
     private http: HttpClient,
     private router: Router,
     private convoService: conversationsService,
-    private messageService: MessageServices
+    private messageService: MessageServices,
+    private signalRService: SignalRService
   ) {}
 
   searchTerm: string = '';
@@ -89,14 +91,33 @@ export class Conversations {
   ngOnInit(): void {
     this.currentUserId = this.getUserIdFromToken();
     this.currentUserName = this.getUserNameFromToken();
-    this.loadConversations();
+    this.signalRService.startConnection().then(() => {
+      this.signalRService.onReceiveMessage((senderId, message) => {
+        if (senderId === this.currentUserId) {
+          return;
+        }
+
+        if (this.selectedConversationId) {
+          this.messages.push({
+            id: Date.now(),
+            contactId: 0,
+            text: message,
+            timestamp: new Date(),
+            sentByMe: false,
+          });
+
+          setTimeout(() => this.scrollToBottom(), 0);
+        }
+      });
+
+      this.loadConversations();
+    });
   }
 
   private loadConversations(): void {
     this.currentUserId = this.getUserIdFromToken();
     this.convoService.getUserConversations(this.currentUserId).subscribe({
       next: (data) => {
-        console.log('Conversations loaded:', data);
         this.conversations = data;
 
         if (this.conversations.length > 0) {
@@ -124,7 +145,10 @@ export class Conversations {
   }
 
   openConversation(conversationId: number) {
+    if (this.selectedConversationId === conversationId) return;
+
     this.selectedConversationId = conversationId;
+    this.signalRService.joinConversation(conversationId);
 
     const convo = this.conversations.find(
       (c) => c.conversationId === conversationId
@@ -163,20 +187,12 @@ export class Conversations {
 
   sendMessage(): void {
     const trimmedContent = this.newMessage.trim();
-    console.log('Debug -> content: ', trimmedContent);
-    console.log(
-      'Debug -> selectedConversationId: ',
-      this.selectedConversationId
-    );
-    console.log('Debug -> currentUserId: ', this.currentUserId);
     if (
       !trimmedContent ||
       !this.selectedConversationId ||
       !this.currentUserId
     ) {
-      console.warn(
-        '⚠️ Cannot send: empty message or missing conversation/user'
-      );
+      console.warn('Cannot send: empty message or missing conversation/user');
       return;
     }
 
@@ -186,12 +202,8 @@ export class Conversations {
       content: trimmedContent,
     };
 
-    console.log('📨 Sending message:', payload);
-
     this.messageService.sendMessage(payload).subscribe({
       next: (response) => {
-        console.log('Message sent:', response);
-
         // Add to local messages immediately
         this.messages.push({
           id: response.id,
@@ -216,7 +228,6 @@ export class Conversations {
 
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      console.log('first name: ', payload.firstName);
       return payload.firstName || '';
     } catch (err) {
       console.error('Failed to decode token for username', err);

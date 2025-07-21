@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MessageIO.Helpers;
 using MessageIO.Services.Interfaces;
 using MessageIO.Services.Implementations;
+using MessageIO.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 var MySpecificOrigins = "_myAllowSpecificOrigins";
@@ -16,7 +17,7 @@ var MySpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
+builder.Services.AddSignalR();
 builder.Services.AddScoped<IMessageService, MessageService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -52,8 +53,6 @@ builder.Services.AddScoped<TokenProvider>();
 
 var app = builder.Build();
 
-Console.WriteLine("JWT Key from config: " + builder.Configuration["Jwt:Key"]);
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -68,10 +67,12 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+//app.UseWebSockets();
 app.UseHttpsRedirection();
 app.UseCors(MySpecificOrigins);
 //app.UseCors(policy => policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHub<ChatHub>("/chatHub");
 app.Run();

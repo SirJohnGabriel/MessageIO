@@ -109,7 +109,7 @@
         </div>
 
         <!-- Input -->
-        <div class="p-4 flex items-center space-x-2" style="background-color: var(--color-primary);">
+        <div class="p-4 flex items-center space-x-2" style="background-color: var(--color-primary);" (keydown.enter)="sendMessage()">
             <input type="text" placeholder="Type a message..." [(ngModel)]="newMessage"
                 class="flex-1 px-4 py-2 rounded-lg focus:outline-none focus:ring"
                 style="background-color: var(--color-bg); color: var(--color-inner-text);" />
