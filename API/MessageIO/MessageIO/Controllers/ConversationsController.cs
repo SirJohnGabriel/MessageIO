@@ -1,6 +1,7 @@
 ﻿using MessageIO.Data;
 using MessageIO.Models;
 using MessageIO.Models.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MessageIO.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ConversationsController : ControllerBase

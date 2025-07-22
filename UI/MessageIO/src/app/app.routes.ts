@@ -10,12 +10,17 @@ import { ForgotPassword } from './components/forgot-password/forgot-password';
 import { ConversationTable } from './components/conversation-table/conversation-table';
 
 export const routes: Routes = [
-    { path: '', component: Login},
-    { path: 'login', component: Login},
-    { path: 'register', component: Register},
-    { path: 'forgot-password', component: ForgotPassword},
-    { path: 'dashboard', component: Dashboard, canActivate: [authGuard]},
-    { path: 'conversations', component: Conversations, canActivate: [authGuard]},
-    { path: 'settings', component: Settings, canActivate: [authGuard]},
-    { path: 'conversation-table', component: ConversationTable, canActivate: [authGuard]},
+  { path: '', component: Login },
+  { path: 'login', component: Login },
+  { path: 'register', component: Register },
+  { path: 'forgot-password', component: ForgotPassword },
+  { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
+  { path: 'conversations', component: Conversations, canActivate: [authGuard] },
+  { path: 'settings', component: Settings, canActivate: [authGuard] },
+  {
+    path: 'conversation-table',
+    component: ConversationTable,
+    canActivate: [authGuard],
+  },
+  { path: '**', redirectTo: 'login' },
 ];
