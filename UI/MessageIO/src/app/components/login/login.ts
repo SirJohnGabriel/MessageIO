@@ -43,8 +43,18 @@ export class Login implements OnInit {
   ngOnInit() {
     const token = localStorage.getItem('token');
     if (token) {
-      this.router.navigate(['/conversations']);
-      return;
+      this.http
+        .get('/api/auth/validate-token', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/conversations']);
+          },
+          error: () => {
+            localStorage.removeItem('token');
+          },
+        });
     }
 
     const savedIdentifier = localStorage.getItem('rememberedIdentifier');

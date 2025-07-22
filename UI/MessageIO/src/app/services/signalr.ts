@@ -1,20 +1,34 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignalRService {
+  constructor(private router: Router) {}
   private hubConnection!: signalR.HubConnection;
 
   startConnection(): Promise<void> {
+    const token = localStorage.getItem('token');
+
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:7218/chathub')
+      .withUrl('https://localhost:7218/chathub', {
+        accessTokenFactory: () => token || '',
+      })
       .withAutomaticReconnect()
       .build();
 
     return this.hubConnection.start().catch((err) => {
       console.error('SignalR connection error:', err);
+
+      const isUnauthorized =
+        err?.status === 401 || err?.message?.includes('401');
+
+      if (isUnauthorized) {
+        localStorage.removeItem('token');
+        this.router.navigate(['/login']);
+      }
     });
   }
 
